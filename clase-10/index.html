@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>English class · ט׳ · New York City</title>
+  <style>
+    :root{--navy:#26375b;--gold:#b8923c;--paper:#f1ede2;--white:#fffdf8;--line:#d8d2c2;--orange:#ed7d31;--green:#17613d;--bar:68px}
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--paper);color:var(--navy);font-family:Arial,"Noto Sans Hebrew",sans-serif}
+    button,a{font:inherit}
+    #deck{position:fixed;inset:0 0 var(--bar)}
+    .slide{position:absolute;inset:0;padding:2.3vh 4vw;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .16s ease}
+    .slide.on{opacity:1;pointer-events:auto}
+    .inner{width:min(1450px,100%);height:100%;display:grid;align-content:center;gap:1.4vh}
+    .tag{color:#896a25;font-size:clamp(11px,1vw,15px);letter-spacing:.14em;font-weight:700;text-transform:uppercase}
+    h1{margin:0;font-size:clamp(32px,4.3vw,66px);line-height:1.02}
+    h2{margin:0;font-size:clamp(26px,3.2vw,48px)}
+    .gold{color:#8b671e}
+    .cover{grid-template-columns:1.3fr .7fr;gap:4vw;align-items:center}
+    .cover h1{font-size:clamp(46px,7vw,106px)}
+    .cover-meta{font-size:clamp(20px,2.1vw,34px);line-height:1.45;font-weight:700}
+    .agenda{border-left:9px solid var(--gold);padding-left:24px;font-size:clamp(22px,2.4vw,37px);line-height:1.5}
+    .file-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    .file-links a,.btn{display:inline-block;border:0;border-radius:9px;background:var(--navy);color:white;text-decoration:none;padding:10px 15px;font-weight:700;cursor:pointer}
+    .rule{text-align:center;gap:3vh}
+    .rule .big{font-size:clamp(48px,7vw,110px);font-weight:800;line-height:1.02}
+    .rule .he{direction:rtl;font-size:clamp(25px,3vw,48px);font-weight:700}
+    .rule .start{border:4px solid var(--gold);border-radius:18px;background:var(--white);padding:18px;font-size:clamp(20px,2.2vw,34px);font-weight:700}
+    .video-layout{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(320px,.85fr);gap:2vw;align-items:start}
+    .video-wrap{min-width:0}
+    .video{width:100%;aspect-ratio:16/9;border:4px solid var(--gold);border-radius:14px;overflow:hidden;background:#0b0b0b;box-shadow:0 7px 22px #26375b26}
+    .video video{width:100%;height:100%;display:block}
+    .cue{margin-top:9px;font-size:clamp(17px,1.55vw,25px);font-weight:800}
+    .hint{margin-top:5px;font-size:clamp(13px,1.05vw,17px);color:#4e5d7b}
+    .side{display:grid;gap:1vh;min-width:0}
+    .sheet-button{padding:0;border:5px solid var(--orange);border-radius:12px;overflow:hidden;background:white;cursor:zoom-in;box-shadow:0 5px 15px #26375b25}
+    .sheet-button img{display:block;width:100%;height:auto}
+    .sheet-label{font-weight:800;color:#a54813;text-align:center;font-size:clamp(15px,1.25vw,20px)}
+    .vocab{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;background:var(--white);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+    .vocab div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted #c7bfac;padding:3px 0;font-size:clamp(14px,1.12vw,18px)}
+    .vocab dt{font-weight:800}.vocab dd{margin:0;direction:rtl;font-weight:700}
+    .answer-box{display:none;background:#edf7ed;color:var(--green);border:2px solid #9bc9a8;border-radius:10px;padding:9px 12px;font-weight:800;font-size:clamp(14px,1.2vw,19px);line-height:1.35}
+    .answer-box.show{display:block}
+    .quiz-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+    .quiz-q{background:var(--white);border:1px solid var(--line);border-left:7px solid var(--gold);border-radius:10px;padding:13px;font-size:clamp(18px,1.55vw,25px);font-weight:700}
+    .quiz-answer{display:none;color:var(--green);margin-top:5px}.quiz-answer.show{display:block}
+    .speak{text-align:center;gap:3vh}
+    .speak .question{font-size:clamp(42px,6vw,92px);font-weight:800;line-height:1.08}
+    .frame{background:var(--navy);color:white;border-radius:18px;padding:24px;font-size:clamp(29px,4vw,62px);font-weight:800}
+    .sheet-button img:fullscreen{width:100vw;height:100vh;object-fit:contain;background:#fff;padding:3vh}
+    #progress{position:fixed;top:0;left:0;height:6px;background:var(--gold);z-index:10;transition:width .15s}
+    #bar{height:var(--bar);position:fixed;bottom:0;left:0;right:0;background:#f1ede2f5;border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 4vw;z-index:20}
+    .round{width:44px;height:44px;border-radius:50%;border:1px solid var(--navy);background:transparent;color:var(--navy);font-size:21px;font-weight:800;cursor:pointer}
+    #count{font-weight:800}#keys{margin-left:auto;color:#65708a;font-size:14px}
+    @media(max-width:900px){
+      .cover,.video-layout{grid-template-columns:1fr}.cover{gap:2vh}
+      .video-layout{grid-template-rows:auto auto}.video{width:min(820px,100%);margin:auto}
+      .side{grid-template-columns:1fr 1fr;align-items:start}.sheet-button,.sheet-label{grid-column:1}.vocab,.btn,.answer-box{grid-column:2}
+      h1{font-size:clamp(28px,5vw,48px)}#keys{display:none}
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <main id="deck" aria-live="polite"></main>
+  <nav id="bar" aria-label="Slide controls">
+    <button class="round" id="prev" aria-label="Previous slide">←</button>
+    <button class="round" id="next" aria-label="Next slide">→</button>
+    <span id="count"></span>
+    <span id="keys">← → slides · Space video · A answers · F fullscreen</span>
+    <button class="round" id="full" aria-label="Fullscreen">⛶</button>
+  </nav>
+  <script>
+    const videos = [
+      {n:1,title:"Intro + Population",time:"0:00-1:20",clip:"media/new-york-01-intro-population.mp4",q:"1-2",
+       answers:["1. Over 8 million people","2. True: more than 800 languages"],
+       vocab:[["population","אוכלוסייה"],["language","שפה"],["nickname","כינוי"],["city","עיר"],["million","מיליון"]]},
+      {n:2,title:"Boroughs",time:"1:20-3:41",clip:"media/new-york-02-boroughs.mp4",q:"3-4",
+       answers:["3. Five boroughs","4. France"],
+       vocab:[["borough","רובע"],["island","אי"],["harbor","נמל"],["statue","פסל"],["ferry","מעבורת"]]},
+      {n:3,title:"Times Square",time:"3:41-5:33",clip:"media/new-york-03-times-square.mp4",q:"5-6",
+       answers:["5. False: it is in Manhattan","6. Entertainment"],
+       vocab:[["billboard","שלט חוצות"],["entertainment","בידור"],["theater","תיאטרון"],["tourist","תייר"],["taxi","מונית"]]},
+      {n:4,title:"Central Park",time:"5:33-7:04",clip:"media/new-york-04-central-park.mp4",q:"7-8",
+       answers:["7. Manhattan","8. True"],
+       vocab:[["urban","עירוני"],["peaceful","שקט"],["carousel","קרוסלה"],["zoo","גן חיות"],["carriage","כרכרה"]]},
+      {n:5,title:"Brooklyn Bridge",time:"7:04-8:38",clip:"media/new-york-05-brooklyn-bridge.mp4",q:"9-10",
+       answers:["9. Brooklyn","10. Suspension bridge"],
+       vocab:[["bridge","גשר"],["cable","כבל"],["suspension","תלוי"],["impressive","מרשים"],["subway","רכבת תחתית"]]},
+      {n:6,title:"Empire State + Other skyscrapers",time:"8:38-10:51",clip:"media/new-york-06-skyscrapers.mp4",q:"11-12",
+       answers:["11. 102 floors","12. The Flatiron Building"],
+       vocab:[["skyscraper","גורד שחקים"],["floor","קומה"],["office","משרד"],["viewing platform","מרפסת תצפית"],["triangle","משולש"]]},
+      {n:7,title:"Pizza",time:"10:51-11:48",clip:"media/new-york-07-pizza.mp4",q:"13-14",
+       answers:["13. Italian immigrants","14. Mozzarella"],
+       vocab:[["immigrant","מהגר"],["slice","פרוסה"],["fold","לקפל"],["sauce","רוטב"],["cheese","גבינה"]]},
+      {n:8,title:"Wall Street",time:"11:48-14:19",clip:"media/new-york-08-wall-street.mp4",q:"15-16",
+       answers:["15. Lower Manhattan","16. True"],
+       vocab:[["financial district","רובע פיננסי"],["stock exchange","בורסה"],["bull","שור"],["rebuild","לבנות מחדש"],["memorial","אתר הנצחה"]]},
+      {n:9,title:"Macy's Parade",time:"14:19-15:29",clip:"media/new-york-09-macys-parade.mp4",q:"17-18",
+       answers:["17. True","18. 1924"],
+       vocab:[["parade","מצעד"],["balloon","בלון"],["float","קרון מקושט"],["marching band","תזמורת מצעדים"],["crowd","קהל"]]},
+      {n:10,title:"Yankee Stadium",time:"15:29-16:51",clip:"media/new-york-10-yankee-stadium.mp4",q:"19-20",
+       answers:["19. Baseball","20. False: it is the Yankees' stadium"],
+       vocab:[["stadium","אצטדיון"],["baseball","בייסבול"],["team","קבוצה"],["successful","מצליח"],["mustard","חרדל"]]}
+    ];
+
+    const slides = [];
+    const deck = document.querySelector("#deck");
+    const add = html => { const s=document.createElement("section"); s.className="slide"; s.innerHTML=html; deck.appendChild(s); slides.push(s); };
+    const tag = '<div class="tag">English · ט׳ · Class 10 · Monday 26 October 2026</div>';
+
+    add(`<div class="inner cover">
+      <div>${tag}<h1>New York<br><span class="gold">City</span></h1><div class="cover-meta">English class · Rav Mordechai<br>Monday 26 October 2026 · ט׳</div></div>
+      <div class="agenda"><strong>Today</strong><br>New York video in chapters<br>Answer on your worksheet<br>Quick quiz
+        <div class="file-links"><a href="worksheet.pdf">Print worksheet</a><a href="answers.pdf">Teacher answer key</a></div>
+      </div>
+    </div>`);
+
+    add(`<div class="inner rule">${tag}<div class="big">Stand up.<br>Worksheet on the table.</div><div class="he">כולם עומדים והדף על השולחן</div><div class="start">We start only when everyone is standing with the worksheet ready.</div></div>`);
+
+    videos.forEach(v => {
+      const vocab = v.vocab.map(([en,he])=>`<div><dt>${en}</dt><dd>${he}</dd></div>`).join("");
+      const answers = v.answers.map(a=>`<div>✓ ${a}</div>`).join("");
+      add(`<div class="inner">${tag}<h2>VIDEO ${v.n} · ${v.title}</h2>
+        <div class="video-layout">
+          <div class="video-wrap">
+            <div class="video"><video controls preload="metadata" playsinline src="${v.clip}"></video></div>
+            <div class="cue">VIDEO ${v.n} · ${v.title} → Worksheet questions ${v.q}</div>
+            <div class="hint">${v.time} · Space = play / pause · The clip stops at the end</div>
+          </div>
+          <aside class="side">
+            <button class="sheet-button" type="button" onclick="fullImage(this.querySelector('img'))" aria-label="Open worksheet questions ${v.q} fullscreen">
+              <img src="media/worksheet-video-${String(v.n).padStart(2,"0")}.png" alt="Worksheet questions ${v.q}">
+            </button>
+            <div class="sheet-label">Click the worksheet preview for fullscreen</div>
+            <dl class="vocab">${vocab}</dl>
+            <button class="btn answer-toggle" type="button" onclick="toggleAnswers(this)">Show answers</button>
+            <div class="answer-box">${answers}</div>
+          </aside>
+        </div>
+      </div>`);
+    });
+
+    add(`<div class="inner">${tag}<h1>Quick quiz</h1>
+      <div class="quiz-list">
+        <div class="quiz-q">1. How many boroughs are there?<div class="quiz-answer">Five</div></div>
+        <div class="quiz-q">2. Which bridge connects Manhattan and Brooklyn?<div class="quiz-answer">The Brooklyn Bridge</div></div>
+        <div class="quiz-q">3. How many floors does the Empire State Building have?<div class="quiz-answer">102</div></div>
+        <div class="quiz-q">4. Who brought pizza to New York City?<div class="quiz-answer">Italian immigrants</div></div>
+        <div class="quiz-q">5. When was the first Macy's parade?<div class="quiz-answer">1924</div></div>
+      </div>
+      <button class="btn" type="button" onclick="showQuiz(this)">Show answers</button>
+    </div>`);
+
+    add(`<div class="inner speak">${tag}<div class="question">What place do you want to visit? Why?</div><div class="frame">I want to visit __________ because __________.</div></div>`);
+
+    function toggleAnswers(button){
+      const box=button.nextElementSibling;
+      box.classList.toggle("show");
+      button.textContent=box.classList.contains("show")?"Hide answers":"Show answers";
+    }
+    function showQuiz(button){
+      const answers=[...button.parentElement.querySelectorAll(".quiz-answer")];
+      const show=answers.some(a=>!a.classList.contains("show"));
+      answers.forEach(a=>a.classList.toggle("show",show));
+      button.textContent=show?"Hide answers":"Show answers";
+    }
+    function fullImage(img){ if(img.requestFullscreen) img.requestFullscreen(); }
+
+    let current=-1;
+    function go(i){
+      i=Math.max(0,Math.min(slides.length-1,i));
+      document.querySelectorAll("video").forEach(v=>{v.pause(); if(!slides[i].contains(v)) v.currentTime=0;});
+      if(current>=0)slides[current].classList.remove("on");
+      current=i; slides[current].classList.add("on");
+      document.querySelector("#count").textContent=`${current+1} / ${slides.length}`;
+      document.querySelector("#progress").style.width=`${(current+1)/slides.length*100}%`;
+      history.replaceState(null,"",`#${current+1}`);
+    }
+    document.querySelector("#prev").onclick=()=>go(current-1);
+    document.querySelector("#next").onclick=()=>go(current+1);
+    document.querySelector("#full").onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();
+    document.addEventListener("keydown",e=>{
+      if(["INPUT","BUTTON","A"].includes(document.activeElement.tagName)) return;
+      if(e.key==="ArrowRight"||e.key==="PageDown"){go(current+1);e.preventDefault();}
+      if(e.key==="ArrowLeft"||e.key==="PageUp"){go(current-1);e.preventDefault();}
+      if(e.key===" "){
+        const v=slides[current].querySelector("video");
+        if(v){v.paused?v.play():v.pause();}else{go(current+1);}
+        e.preventDefault();
+      }
+      if(e.key.toLowerCase()==="a"){
+        const b=slides[current].querySelector(".answer-toggle");
+        if(b)toggleAnswers(b); else {const q=slides[current].querySelector(".quiz-list");if(q)showQuiz(slides[current].querySelector(".btn"));}
+      }
+      if(e.key.toLowerCase()==="f")document.querySelector("#full").click();
+    });
+    go(Math.max(0,(parseInt(location.hash.slice(1),10)||1)-1));
+  </script>
+</body>
+</html>

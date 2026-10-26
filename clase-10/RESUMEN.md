@@ -1,0 +1,15 @@
+# Clase 10 ט׳ — resumen
+- URL: https://alanbendov-spec.github.io/ingles-tet/clase-10/
+- Láminas: 14 total (portada, regla, 10 vídeos, quiz, cierre oral).
+- V1 Q1 población: más de 8 millones (0:51); Q2 más de 800 idiomas: verdadero (0:58).
+- V2 Q3 número de boroughs: 5 (1:20); Q4 regalo de: Francia (2:03).
+- V3 Q5 Times Square en Brooklyn: falso, Manhattan (3:48); Q6 centro de: entertainment (4:11).
+- V4 Q7 Central Park está en: Manhattan (5:52); Q8 lugar más filmado: verdadero (6:00).
+- V5 Q9 conecta Manhattan con: Brooklyn (7:25); Q10 tipo: suspension bridge (7:38).
+- V6 Q11 pisos: 102 (9:06); Q12 edificio triangular: Flatiron Building (10:14).
+- V7 Q13 trajeron pizza: Italian immigrants (11:15); Q14 queso: mozzarella (11:32).
+- V8 Q15 Wall Street: Lower Manhattan (12:01); Q16 One WTC más alto de EE. UU.: verdadero (12:55).
+- V9 Q17 desfile más grande: verdadero (14:38); Q18 primer desfile: 1924 (15:15).
+- V10 Q19 deporte: baseball (15:49); Q20 estadio de Mets: falso, Yankees (15:44).
+- PDFs: worksheet.pdf y answers.pdf, A4, 2 páginas cada uno; revisión visual OK.
+- check-deck.sh: local OK; público pendiente tras push.
