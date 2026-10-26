@@ -12,4 +12,4 @@
 - V9 Q17 desfile más grande: verdadero (14:38); Q18 primer desfile: 1924 (15:15).
 - V10 Q19 deporte: baseball (15:49); Q20 estadio de Mets: falso, Yankees (15:44).
 - PDFs: worksheet.pdf y answers.pdf, A4, 2 páginas cada uno; revisión visual OK.
-- check-deck.sh: local OK; público pendiente tras push.
+- check-deck.sh público: RESULTADO OK; 10/10 MP4 y ambos PDFs HTTP 200. Chrome: control no disponible (native host ausente).
